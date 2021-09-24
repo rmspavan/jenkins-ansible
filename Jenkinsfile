@@ -52,22 +52,6 @@ pipeline {
 
       }    
     
-	    /* stage ('Upload')  {
-	      steps {
-                 rtUpload (
-                    serverId: "Artifactory" ,
-                    spec: '''{
-                       "files": [
-                         {
-                           "pattern": "*.war",
-                           "target": "jenkins-libs-snapshot"
-                         }
-                                ]
-                              }''',
-                          ) 
-              }
-      } */
-    
       stage ('Publish build info') {
         steps{
             rtPublishBuildInfo(
@@ -75,6 +59,10 @@ pipeline {
             )
           }
       }    
-             
+
+
+
+
+    /* end */
     }
 }
