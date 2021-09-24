@@ -7,7 +7,7 @@ pipeline {
 
       stage ('Checkout SCM'){
         steps {
-          checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git', url: 'https://github.com/rmspavan/cicd.git']]])
+          checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git', url: 'https://github.com/rmspavan/jenkins-ansible.git']]])
               }
       }
     	  
@@ -20,7 +20,7 @@ pipeline {
     
       stage ('SonarQube Analysis') {
         steps {
-              withSonarQubeEnv('sonar') {
+              withSonarQubeEnv('sonarq') {
                  sh 'mvn -U clean install sonar:sonar'
 				      }
           }
@@ -47,7 +47,7 @@ pipeline {
                        "files": [
                          {
                            "pattern": "*.war",
-                           "target": "webapp-libs-snapshot-local"
+                           "target": "jenkins-libs-snapshot"
                          }
                                 ]
                               }''',
@@ -62,50 +62,6 @@ pipeline {
             )
           }
       }    
-    
-      stage('Copy') {
-            
-            steps {
-                  sshagent(['sshkey']) {
-                       
-                        sh "scp -o StrictHostKeyChecking=no Dockerfile root@192.168.1.235:/root/"
-                        sh "scp -o StrictHostKeyChecking=no create-container-image.yaml root@192.168.1.235:/root/"
-                        sh "scp -o StrictHostKeyChecking=no create-k8s-deployment.yaml root@192.168.1.222:/root/"
-                    }
-                }
-            
-        } 
-
-      stage('Build Container Image') {
-            
-            steps {
-                  sshagent(['sshkey']) {
-                       
-                        sh "ssh -o StrictHostKeyChecking=no root@192.168.1.235 -C \"sudo ansible-playbook create-container-image.yaml\""
-                        
-                    }
-                }
-            
-        } 
-      
-      stage('Waiting for Approvals') {
-            
-          steps{
-
-			        	input('Test Completed ? Please provide  Approvals for Prod Release ?')
-			         }
-      }
-
-      stage('Deploy Artifacts to Production') {
-            
-            steps {
-                  sshagent(['sshkey']) {
-                       
-                        sh "ssh -o StrictHostKeyChecking=no root@192.168.1.222 -C \"sudo kubectl delete deploy webapp\""
-                        sh "ssh -o StrictHostKeyChecking=no root@192.168.1.222 -C \"sudo kubectl apply -f create-k8s-deployment.yaml\""
-                                            
-                  }
-            }
-       }     
+             
     }
 }
