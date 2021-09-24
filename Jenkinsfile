@@ -35,11 +35,24 @@ pipeline {
              password: 'P@ssw0rd',
              bypassProxy: true,
              timeout: 300
-                    )    
+                    ) 
+           rtUpload (
+              serverId: "Artifactory" ,
+              spec: '''{
+                 "files": [
+                    {
+                      "pattern": "*.war",
+                      "target": "jenkins-libs-snapshot"
+                    }
+                          ]
+                       }''',
+                      ) 
+                 
               }
+
       }    
     
-	    stage ('Upload')  {
+	    /* stage ('Upload')  {
 	      steps {
                  rtUpload (
                     serverId: "Artifactory" ,
@@ -53,7 +66,7 @@ pipeline {
                               }''',
                           ) 
               }
-      }
+      } */
     
       stage ('Publish build info') {
         steps{
