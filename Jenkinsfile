@@ -112,7 +112,13 @@ pipeline {
     }
 }
 
-node {
+def deploy(String appname, String env) {
+    echo "Triggering Ansible Tower"
+
+    callAT();
+}
+
+def callAT(){
 
       ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
 
