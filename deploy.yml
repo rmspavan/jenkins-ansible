@@ -1,7 +1,6 @@
 ---
 - hosts: 192.168.1.222
-  tasks: 
+  tasks:
   - name: delete the deployment
     become: true
-    shell: kubectl apply -f demo.yml
-      dest: /root/demo
+    shell: kubecrl apply -f /root/demo/demo.yml
