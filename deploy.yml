@@ -3,4 +3,4 @@
   tasks:
   - name: delete the deployment
     become: true
-    shell: kubecrl apply -f /root/demo/demo.yml
+    shell: kubectl apply -f /root/demo/demo.yml
