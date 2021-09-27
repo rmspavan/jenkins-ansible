@@ -110,3 +110,20 @@ pipeline {
         /* end */
     }
 }
+/*node {
+    wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+        ansibleTower(
+            towerServer: 'Prod Tower',
+            jobTemplate: 'Simple Test',
+            importTowerLogs: true,
+            inventory: 'Demo Inventory',
+            jobTags: '',
+            limit: '',
+            removeColor: false,
+            verbose: true,
+            credential: '',
+            extraVars: '''---
+            my_var: "Jenkins Test"'''
+        )
+    }
+}*/
