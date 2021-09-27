@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  tasks: 
+
+  - name: remove artifact
+    shell: rm -rf /root/*.war
+    ignore_errors: yes
+
+  - name: Pull .war artifact from Artifactory
+    become: true
+    get_url:
+      url: http://192.168.1.245:8082/artifactory/jenkins-libs-snapshot/demoapp.war
+      dest: /root/
+      url_username: admin
+      url_password: P@ssw0rd
