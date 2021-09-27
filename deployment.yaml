@@ -36,7 +36,11 @@ spec:
     app: demoapp
   type: NodePort
   ports:
+<<<<<<< HEAD:deployment.yaml
   - nodePort: 31010
+=======
+  - nodePort: 32000
+>>>>>>> 7313d6c85600b9d51df4cdfb94e25b5e66502059:create-k8s-deployment.yaml
     port: 8080
     targetPort: 8080
 ...
