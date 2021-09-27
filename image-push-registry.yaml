@@ -1,7 +1,7 @@
 #Create Custom Container Image
 #Push to DockerHub Registry
 ---
-- hosts: localhost
+- hosts: 192.168.1.235
   tasks: 
 
   - name: remove artifact
