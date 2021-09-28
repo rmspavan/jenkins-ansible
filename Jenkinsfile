@@ -18,7 +18,7 @@ pipeline {
               }
          }
     
-/*       stage ('SonarQube Analysis') {
+      stage ('SonarQube Analysis') {
         steps {
               withSonarQubeEnv('sonar') {
                  sh 'mvn -U clean install sonar:sonar'
@@ -88,7 +88,7 @@ pipeline {
           steps {
               ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', templateType: 'workflow', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
                }
-      } */
+      }
         
     }
 }
