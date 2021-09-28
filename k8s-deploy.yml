@@ -7,6 +7,6 @@
     shell: kubectl delete deploy webapp
     ignore_errors: yes
 
-  - name: delete the deployment
+  - name: create the deployment
     become: true
-    shell: kubectl apply -f /root/demo/deployment.yml
+    shell: kubectl apply -f /root/demo/deployment.yaml
