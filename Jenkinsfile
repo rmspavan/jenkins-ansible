@@ -45,9 +45,7 @@ pipeline {
              password: 'P@ssw0rd',
              bypassProxy: true,
              timeout: 300
-                    ) 
-               }
-        steps {            
+                    )               
            rtUpload (
               serverId: "Artifactory" ,
               spec: '''{
@@ -94,24 +92,23 @@ pipeline {
 
       stage ('Deploy') {
        steps{
-         node {
-           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
             ansibleTower(
-            towerServer: 'ansibleTower',
-            jobTemplate: 'Dockerrepo-k8s-deploy',
-            importTowerLogs: true,
-            inventory: 'docker-k8s',
-            jobTags: '',
-            limit: '',
-            removeColor: false,
-            verbose: true,
-            credential: 'tower',
-                       
-            )
-             }
-        
-           }
-        }
+               towerServer: 'ansibleTower',
+               templateType: 'workflow',
+               jobTemplate: 'Dockerrepo-k8s-deploy',
+               importTowerLogs: true,
+               inventory: 'docker-k8s',
+               jobTags: '',
+               skipJobTags: '',
+               limit: '',
+               removeColor: false,
+               verbose: true,
+               credential: 'tower',
+               extraVars: '''---
+               '''
+                        
+                       )
+            }
       }
 
         /* end */
