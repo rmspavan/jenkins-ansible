@@ -13,29 +13,21 @@ pipeline {
     	  
 	    stage ('Build')  {
 	      steps {
-                   sh "mvn clean install"
-                   sh "mvn package"
+                   sh "mvn clean package"
               }
          }
 
-      stage("Unit Test") {
+      stage("Unit and Integration Test ") {
             steps {
                 script {
                     // Test complied source code
-                    sh "mvn -B clean test" 
-                }
-            }
-      }
-
-      stage("Integration Test") {
-            steps {
-                script {
+                    sh "mvn -B clean test"
                     // Run checks on results of integration tests to ensure quality criteria are met
-                    sh "mvn -B clean verify -DskipTests=true" 
-                }
-            }
+                    sh "mvn -B clean verify -DskipTests=true"                  
+                       }
+                  }
       }
-
+ 
       stage ('SonarQube Analysis') {
         steps {
               withSonarQubeEnv('sonarq') {
@@ -99,31 +91,51 @@ pipeline {
 			         }
       }
 
-     stage ('Deploy') {
+      stage ('Deploy') {
        steps{
          node {
-           ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
-				      }
-       }
+           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+            ansibleTower(
+            towerServer: 'ansibleTower',
+            jobTemplate: 'Dockerrepo-k8s-deploy',
+            importTowerLogs: true,
+            inventory: 'docker-k8s',
+            jobTags: '',
+            limit: '',
+            removeColor: false,
+            verbose: true,
+            credential: 'tower',
+                       
+            )
+             }
+        
+           }
+        }
       }
 
         /* end */
     }
 }
+
 /*node {
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
         ansibleTower(
-            towerServer: 'Prod Tower',
-            jobTemplate: 'Simple Test',
+            towerServer: 'ansibleTower',
+            jobTemplate: 'Dockerrepo-k8s-deploy',
             importTowerLogs: true,
-            inventory: 'Demo Inventory',
+            inventory: 'docker-k8s',
             jobTags: '',
             limit: '',
             removeColor: false,
             verbose: true,
             credential: '',
             extraVars: '''---
-            my_var: "Jenkins Test"'''
+            
         )
     }
 }*/
+
+/* node {
+           
+           ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
+				      } */
