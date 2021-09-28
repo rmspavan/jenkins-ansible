@@ -134,3 +134,66 @@ pipeline {
            
            ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
 				      } */
+
+	/*     stage ('Build')  {
+	      steps {
+                   sh "mvn clean package"
+              }
+         }
+
+      stage("Unit and Integration Test ") {
+            steps {
+                script {
+                    // Test complied source code
+                    sh "mvn -B clean test"
+                    // Run checks on results of integration tests to ensure quality criteria are met
+                    sh "mvn -B clean verify -DskipTests=true"                  
+                       }
+                  }
+      }
+ 
+      stage ('SonarQube Analysis') {
+        steps {
+              withSonarQubeEnv('sonarq') {
+                 sh 'mvn -U clean install sonar:sonar'
+				      }
+          }
+      }
+    
+	    stage ('Artifact')  {
+	      steps {
+           rtServer (
+             id: "Artifactory",
+             url: 'http://192.168.1.245:8082/artifactory',
+             username: 'admin',
+             password: 'P@ssw0rd',
+             bypassProxy: true,
+             timeout: 300
+                    )               
+           }
+
+      } 
+
+	    stage ('Upload')  {
+	      steps {
+                 rtUpload (
+                    serverId: "Artifactory" ,
+                    spec: '''{
+                       "files": [
+                         {
+                           "pattern": "*.war",
+                           "target": "webapp-libs-snapshot-local"
+                         }
+                                ]
+                              }''',
+                          ) 
+              }
+      }         
+    
+      stage ('Publish build info') {
+        steps{
+            rtPublishBuildInfo(
+                serverId: "Artifactory"
+            )
+          }
+      }     */

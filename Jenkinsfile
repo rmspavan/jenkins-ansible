@@ -13,24 +13,14 @@ pipeline {
     	  
 	    stage ('Build')  {
 	      steps {
-                   sh "mvn clean package"
+                   sh "mvn clean install"
+                   sh "mvn package"
               }
          }
-
-      stage("Unit and Integration Test ") {
-            steps {
-                script {
-                    // Test complied source code
-                    sh "mvn -B clean test"
-                    // Run checks on results of integration tests to ensure quality criteria are met
-                    sh "mvn -B clean verify -DskipTests=true"                  
-                       }
-                  }
-      }
- 
+    
       stage ('SonarQube Analysis') {
         steps {
-              withSonarQubeEnv('sonarq') {
+              withSonarQubeEnv('sonar') {
                  sh 'mvn -U clean install sonar:sonar'
 				      }
           }
@@ -45,11 +35,10 @@ pipeline {
              password: 'P@ssw0rd',
              bypassProxy: true,
              timeout: 300
-                    )               
-           }
-
-      } 
-
+                    )    
+              }
+      }    
+    
 	    stage ('Upload')  {
 	      steps {
                  rtUpload (
@@ -64,7 +53,7 @@ pipeline {
                               }''',
                           ) 
               }
-      }         
+      }
     
       stage ('Publish build info') {
         steps{
@@ -72,7 +61,7 @@ pipeline {
                 serverId: "Artifactory"
             )
           }
-      }    
+      }
 
       stage('Copy') {
             
@@ -100,6 +89,6 @@ pipeline {
               ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', templateType: 'workflow', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
                }
       }
-        /* end */
+        
     }
 }
