@@ -46,6 +46,8 @@ pipeline {
              bypassProxy: true,
              timeout: 300
                     ) 
+               }
+        steps {            
            rtUpload (
               serverId: "Artifactory" ,
               spec: '''{
@@ -57,7 +59,6 @@ pipeline {
                           ]
                        }''',
                       ) 
-                 
               }
 
       }    
