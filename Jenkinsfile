@@ -103,7 +103,7 @@ pipeline {
                limit: '',
                removeColor: false,
                verbose: true,
-               credential: 'tower',
+               credential: '',
                extraVars: '''---
                '''
                         
