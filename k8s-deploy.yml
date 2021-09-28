@@ -4,7 +4,7 @@
   
   - name: delete the deployment
     become: true
-    shell: kubectl delete deploy demoapp
+    shell: kubectl delete deploy webapp
     ignore_errors: yes
 
   - name: delete the deployment
