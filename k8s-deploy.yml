@@ -6,6 +6,9 @@
     become: true
     shell: kubectl delete deploy webapp && kubectl delete svc webapp-service
     ignore_errors: yes
+  # Pause for 5 minutes to build app cache.
+  - pause:
+      seconds: 10
 
   - name: create the deployment
     become: true
