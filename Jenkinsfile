@@ -114,26 +114,3 @@ pipeline {
         /* end */
     }
 }
-
-/*node {
-    wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-        ansibleTower(
-            towerServer: 'ansibleTower',
-            jobTemplate: 'Dockerrepo-k8s-deploy',
-            importTowerLogs: true,
-            inventory: 'docker-k8s',
-            jobTags: '',
-            limit: '',
-            removeColor: false,
-            verbose: true,
-            credential: '',
-            extraVars: '''---
-            
-        )
-    }
-}*/
-
-/* node {
-           
-           ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
-				      } */
