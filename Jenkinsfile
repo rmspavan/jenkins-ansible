@@ -91,12 +91,13 @@ pipeline {
       }
 
       stage ('Deploy') {
-          node {
-                ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', templateType: 'workflow', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
-                }
           
+          steps{ 
+             steps {
+                  ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', templateType: 'workflow', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
+               }
+          }
       }
-
         /* end */
     }
 }
