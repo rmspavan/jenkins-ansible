@@ -52,7 +52,7 @@ pipeline {
                  "files": [
                     {
                       "pattern": "*.war",
-                      "target": "jenkins-libs-snapshot"
+                      "target": "webapp-libs-snapshot-local"
                     }
                           ]
                        }''',
