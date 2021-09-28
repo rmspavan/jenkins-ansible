@@ -92,22 +92,9 @@ pipeline {
 
       stage ('Deploy') {
        steps{
-            ansibleTower(
-               towerServer: 'ansibleTower',
-               templateType: 'workflow',
-               jobTemplate: 'Dockerrepo-k8s-deploy',
-               importTowerLogs: true,
-               inventory: 'docker-k8s',
-               jobTags: '',
-               skipJobTags: '',
-               limit: '',
-               removeColor: false,
-               verbose: true,
-               credential: '',
-               extraVars: '''---
-               '''
-                        
-                       )
+            node{
+                ansibleTower jobTemplate: 'Dockerrepo-k8s-deploy', jobType: 'run', templateType: 'workflow', throwExceptionWhenFail: false, towerCredentialsId: 'tower', towerLogLevel: 'false', towerServer: 'ansibleTower'
+                }
             }
       }
 
