@@ -46,20 +46,25 @@ pipeline {
              bypassProxy: true,
              timeout: 300
                     )               
-           rtUpload (
-              serverId: "Artifactory" ,
-              spec: '''{
-                 "files": [
-                    {
-                      "pattern": "*.war",
-                      "target": "webapp-libs-snapshot-local"
-                    }
-                          ]
-                       }''',
-                      ) 
-              }
+           }
 
-      }    
+      } 
+
+	    stage ('Upload')  {
+	      steps {
+                 rtUpload (
+                    serverId: "Artifactory" ,
+                    spec: '''{
+                       "files": [
+                         {
+                           "pattern": "*.war",
+                           "target": "webapp-libs-snapshot-local"
+                         }
+                                ]
+                              }''',
+                          ) 
+              }
+      }         
     
       stage ('Publish build info') {
         steps{

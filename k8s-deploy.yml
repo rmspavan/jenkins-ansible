@@ -4,7 +4,7 @@
   
   - name: delete the deployment
     become: true
-    shell: kubectl delete deploy webapp
+    shell: kubectl delete deploy webapp && kubectl delete svc webapp-service
     ignore_errors: yes
 
   - name: create the deployment
