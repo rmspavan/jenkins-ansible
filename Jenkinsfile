@@ -47,7 +47,7 @@ pipeline {
                        "files": [
                          {
                            "pattern": "*.war",
-                           "target": "webapp-libs-snapshot-local"
+                           "target": "cicd-demo-libs-snapshot-local"
                          }
                                 ]
                               }''',
